@@ -1,0 +1,13 @@
+.env
+Dockerfile*
+.dockerignore
+.git
+.gitignore
+docker-compose*
+.prettierrc
+docker
+README.md
+*.code-workspace
+.github
+deploy
+scripts
