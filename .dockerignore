@@ -5,9 +5,10 @@ Dockerfile*
 .gitignore
 docker-compose*
 .prettierrc
-docker
 README.md
 *.code-workspace
 .github
 deploy
 scripts
+.pylintrc
+LICENSE
