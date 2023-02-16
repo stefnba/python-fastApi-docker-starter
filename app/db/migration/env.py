@@ -1,25 +1,26 @@
 # pylint: disable=no-member
 import os
-
 from logging.config import fileConfig
-
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
-
 from alembic import context
 
+from app.db.models.user import User
+from app.db.db import Base
+
 load_dotenv()
+
 
 def connection_string() -> str:
     """
     Creates connection url for alembic
     """
-    host = os.environ.get('DB_HOST', 'localhost')
-    port = os.environ.get('DB_PORT', 5432)
-    database = os.environ.get('DB_NAME')
-    user = os.environ.get('DB_ADMIN_USER')
-    password = os.environ.get('DB_ADMIN_PASSWORD')
-    return f'postgresql+psycopg://{user}:{password}@{host}:{port}/{database}'
+    host = os.environ.get("DB_HOST", "localhost")
+    port = os.environ.get("DB_PORT", 5432)
+    database = os.environ.get("DB_NAME")
+    user = os.environ.get("DB_ADMIN_USER")
+    password = os.environ.get("DB_ADMIN_PASSWORD")
+    return f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
 
 
 # this is the Alembic Config object, which provides
@@ -33,15 +34,15 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # table name for migrations table
-migration_table_section = config.get_section('migration_table')
+migration_table_section = config.get_section("migration_table")
 if migration_table_section is not None:
-    migration_table_name = migration_table_section.get('table', '_migrations')
+    migration_table_name = migration_table_section.get("table", "_migrations")
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -66,7 +67,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        version_table=migration_table_name
+        version_table=migration_table_name,
     )
 
     with context.begin_transaction():
@@ -83,11 +84,7 @@ def run_migrations_online() -> None:
     connectable = create_engine(connection_string())
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=target_metadata,
-            version_table=migration_table_name
-        )
+        context.configure(connection=connection, target_metadata=target_metadata, version_table=migration_table_name)
 
         with context.begin_transaction():
             context.run_migrations()
