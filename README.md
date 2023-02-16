@@ -15,7 +15,13 @@ pip install -r requirements.txt
 Start server
 
 ```console
-uvicorn src.main:app --reload
+uvicorn app.main:app --reload
+```
+
+Or
+
+```console
+make dev
 ```
 
 # Database
