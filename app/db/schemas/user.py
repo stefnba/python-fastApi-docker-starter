@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from .item import Item
+from .order import Item
+
 
 class UserBase(BaseModel):
     email: str

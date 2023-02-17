@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from alembic import context
 
 from app.db.models.user import User
+from app.db.models.order import Order
 from app.db.db import Base
 
 load_dotenv()
