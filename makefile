@@ -5,10 +5,7 @@ migrate-down:
 	alembic -c app/db/alembic.ini downgrade base
 
 migrate-create:
-	alembic -c app/db/alembic.ini revision -m $(name)
-
-migrate-create-auto:
-	alembic -c app/db/alembic.ini revision -m $(name) --autogenerate
+	alembic -c app/db/alembic.ini revision -m $(name) $(if $(filter auto,$(MAKECMDGOALS)),--autogenerate)
 
 migrate-history:
 	alembic -c app/db/alembic.ini history
